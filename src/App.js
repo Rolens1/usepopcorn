@@ -48,10 +48,11 @@ const tempWatchedData = [
 ];
 
 export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
   return (
     <>
-      <NavBar />
-      <Main />
+      <NavBar movies={movies} />
+      <Main movies={movies} />
     </>
   );
 }
@@ -59,22 +60,22 @@ export default function App() {
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-function NavBar({}) {
+function NavBar({ movies }) {
   return (
     <>
       <nav className="nav-bar">
         <Logo />
         <Search />
-        <NumResults />
+        <NumResults movies={movies} />
       </nav>
     </>
   );
 }
-function NumResults() {
+function NumResults({ movies }) {
   return (
     <>
       <p className="num-results">
-        Found <strong>X</strong> results
+        Found <strong>{movies.length}</strong> results
       </p>
     </>
   );
@@ -106,11 +107,11 @@ function Search() {
   );
 }
 
-function Main() {
+function Main({ movies }) {
   return (
     <>
       <main className="main">
-        <ListBox />
+        <ListBox movies={movies} />
         <WatchedBox />
       </main>
       ;
@@ -118,7 +119,7 @@ function Main() {
   );
 }
 
-function ListBox() {
+function ListBox({ movies }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <>
@@ -130,14 +131,13 @@ function ListBox() {
           {isOpen1 ? "–" : "+"}
         </button>
 
-        {isOpen1 && <MovieList />}
+        {isOpen1 && <MovieList movies={movies} />}
       </div>
     </>
   );
 }
 
-function MovieList() {
-  const [movies, setMovies] = useState(tempMovieData);
+function MovieList({ movies }) {
   return (
     <>
       <ul className="list">
